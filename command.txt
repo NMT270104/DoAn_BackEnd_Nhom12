@@ -1,6 +1,6 @@
 lệnh tạo webAPI: 
 
-dotnet new webapi -n DoAnCuoiKy
+dotnet new webapi -n WebAPI
 
 --
 lệnh cài EF Core Package
@@ -27,6 +27,6 @@ secret.json
 { 
 	"ConnectionStrings": { 
 		"DefaultConnection": 
-		"Server=localhost;Database=DoAnCuoiKy;User Id=DoAnCuoiKy;Password=Nhom12;Integrated Security=False;MultipleActiveResultSets=True;TrustServerCertificate=True" 
+		"Server=localhost;Database=WebAPI;User Id=WebAPI;Password=Nhom12;Integrated Security=False;MultipleActiveResultSets=True;TrustServerCertificate=True" 
 	} 
 }
