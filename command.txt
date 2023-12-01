@@ -1,0 +1,32 @@
+lệnh tạo webAPI: 
+
+dotnet new webapi -n DoAnCuoiKy
+
+--
+lệnh cài EF Core Package
+
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.13 
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 7.0.13 
+dotnet tool install --global dotnet-ef --version 7.0.13 
+dotnet ef
+
+--
+*Adding the Initial Migration:  
+
+dotnet ef migrations add Initial 
+
+*Update the database:
+
+dotnet ef database update Initial  
+
+*Rre-create database:
+
+dotnet ef database drop --force --context ApplicationDbContext
+
+secret.json
+{ 
+	"ConnectionStrings": { 
+		"DefaultConnection": 
+		"Server=localhost;Database=DoAnCuoiKy;User Id=DoAnCuoiKy;Password=Nhom12;Integrated Security=False;MultipleActiveResultSets=True;TrustServerCertificate=True" 
+	} 
+}
