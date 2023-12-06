@@ -23,10 +23,14 @@ dotnet ef database update Initial
 
 dotnet ef database drop --force --context ApplicationDbContext
 
+*Install CsvHelper
+
+dotnet add package CsvHelper --version 30.0.1
+
 secret.json
 { 
 	"ConnectionStrings": { 
 		"DefaultConnection": 
-		"Server=localhost;Database=WebAPI;User Id=WebAPI;Password=Nhom12;Integrated Security=False;MultipleActiveResultSets=True;TrustServerCertificate=True" 
+		"Server=localhost\\SQLEXPRESS;Database=WebAPI;User Id=WebAPI;Password=Nhom12;Integrated Security=False;MultipleActiveResultSets=True;TrustServerCertificate=True" 
 	} 
 }
