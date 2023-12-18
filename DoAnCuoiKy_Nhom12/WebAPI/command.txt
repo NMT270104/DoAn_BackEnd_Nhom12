@@ -1,0 +1,44 @@
+lệnh tạo webAPI: 
+
+dotnet new webapi -n WebAPI
+
+--
+lệnh cài EF Core Package
+
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.13 
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 7.0.13 
+dotnet tool install --global dotnet-ef --version 7.0.13 
+dotnet ef
+
+--
+*Adding the Initial Migration:  
+
+dotnet ef migrations add Initial 
+
+*Update the database:
+
+dotnet ef database update Initial  
+
+*Rre-create database:
+
+dotnet ef database drop --force --context ApplicationDbContext
+
+*Install CsvHelper
+
+dotnet add package CsvHelper --version 30.0.1
+
+*Install Dynamic LINQ
+
+dotnet add package System.Linq.Dynamic.Core --version 1.2.23
+
+* Install NewtonsoftJson
+
+dotnet add package Microsoft.AspNetCore.Mvc.NewtonsoftJson
+
+secret.json
+{ 
+	"ConnectionStrings": { 
+		"DefaultConnection": 
+		"Server=localhost\\SQLEXPRESS;Database=WebAPI;User Id=WebAPI;Password=Nhom12;Integrated Security=False;MultipleActiveResultSets=True;TrustServerCertificate=True" 
+	} 
+}

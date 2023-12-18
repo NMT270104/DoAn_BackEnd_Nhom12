@@ -5,13 +5,11 @@ namespace WebAPI.Models {
     [Table("Authors")]
     public class Author
     {
-        //[Key]
+        [Key]
         [Required]
         public int AuthorID { get; set; }
         [Required]
         public string? AuthorName { get; set; }
-        [Required]
-        public DateTime BirthdayAuthor { get; set; }
 
 
         // Quan hệ 1-n với Book

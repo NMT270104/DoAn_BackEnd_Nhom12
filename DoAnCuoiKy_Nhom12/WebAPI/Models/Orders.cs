@@ -5,15 +5,19 @@ namespace WebAPI.Models {
     [Table("Orders")]
     public class Order
     {
-        //[Key]
+        [Key]
         [Required]
         public int OrderID { get; set; }
         //[Key]
         [Required]
         public int UserID { get; set; }
+        [ForeignKey("UserID")]
+
         //[Key]
         [Required]
         public int BookID { get; set; }
+        [ForeignKey("BookID")]
+
         [Required]
         public DateTime OrderDate { get; set; }
 
