@@ -5,10 +5,40 @@ import { Nav } from "react-bootstrap";
 
 function Navbar() {
   return (
-    <header>
+    <>
+      <header className="header">
+        <div className="container">
+          <div className="row">
+            <div className="col-xl-4 m-auto">
+              <form className="d-flex" role="search">
+                <input
+                  className="form-control me-2"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                />
+                <button className="btn btn-outline-success" type="submit">
+                  Search
+                </button>
+              </form>
+            </div>
+
+            <div className="col">
+              <a href="/#">
+                <i className="fa-solid fa-user"></i>
+              </a>
+            </div>
+            <div className="col">
+              <a href="/#">
+                
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
-          <a className="navbar-brand" href="/#">
+          <a className="navbar-brand me-auto" href="/#">
             Navbar
           </a>
           <button
@@ -23,25 +53,33 @@ function Navbar() {
             <span className="navbar-toggler-icon" />
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <ul className="navbar-nav justify-content-center flex-grow-1 pe-3">
               <li className="nav-item">
-                <Nav.Link as={Link} to={"/"}>Home</Nav.Link>
+                <a
+                  className="nav-link active mx-lg-2"
+                  aria-current="page"
+                  href="/#"
+                >
+                  Home
+                </a>
               </li>
               <li className="nav-item">
-                <Nav.Link as={Link} to={"/product"}>Product</Nav.Link>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/#">
+                <a className="nav-link mx-lg-2" href="/#">
                   About
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/#">
-                  Blog
+                <a className="nav-link mx-lg-2" href="/#">
+                  Service
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/#">
+                <a className="nav-link mx-lg-2" href="/#">
+                  Portfolio
+                </a>
+              </li>
+              <li className="nav-item">
+                <a className="nav-link mx-lg-2" href="/#">
                   Contact
                 </a>
               </li>
@@ -49,7 +87,7 @@ function Navbar() {
           </div>
         </div>
       </nav>
-    </header>
+    </>
   );
 }
 

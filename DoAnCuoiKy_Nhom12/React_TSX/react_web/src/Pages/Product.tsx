@@ -11,7 +11,6 @@ function Product() {
             <span className="">
                 sale
             </span>
-            
           </div>
         </div>
       </div>
