@@ -1,0 +1,48 @@
+Thêm Tác Giả mới 
+POST
+http://localhost:40080/api/Authors/CreateAuthor
+{
+  "authorName": "Tên tác giả"
+}
+Sửa tác giả 
+PUT
+http://localhost:40080/api/Authors/UpdateAuthor/{id}
+{
+  "authorName": "tên tác giả cần sửa"
+}
+Thêm thể loại sách
+POST
+http://localhost:40080/api/Categories/CreateCategory
+{
+  "categoryName": "Thể loại sách"
+}
+Sửa thể loại sách
+PUT
+http://localhost:40080/api/Categories/UpdateCategory/{id}
+{
+  "categoryName": "tên thể loại"
+}
+Thêm sách mới
+POST
+http://localhost:40080/api/Books/Create
+{
+  "nameBook": "tên sách mới",
+  "authorID": id tác giả,
+  "categoryID": id thể loại,
+  "image": "location image",
+  "description": "mô tả",
+  "price": giá1,
+  "quantity": số lượng
+}
+Sửa thông tin sách
+PUT
+http://localhost:40080/api/Books/Update/{id}
+{
+  "nameBook": "tên sách",
+  "authorID": id tác giả,
+  "categoryID": id thể loại,
+  "image": "location image",
+  "description": "mô tả",
+  "price": giá,
+  "quantity": số lượng
+}

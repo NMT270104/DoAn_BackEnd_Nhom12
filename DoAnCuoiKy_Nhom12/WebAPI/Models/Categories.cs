@@ -5,7 +5,7 @@ namespace WebAPI.Models {
     [Table("Categories")]
     public class Category
     {
-        //[Key]
+        [Key]
         [Required]        
         public int CategoryID { get; set; }
         [Required]

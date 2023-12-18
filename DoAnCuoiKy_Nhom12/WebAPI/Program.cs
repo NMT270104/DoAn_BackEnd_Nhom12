@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
 using WebAPI.Models;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,7 +36,28 @@ builder.Services.AddDbContext<ApplicationDbContext>(
 
 ///
 
+// Thêm dịch vụ IUrlHelperFactory
+builder.Services.AddSingleton<IUrlHelperFactory>(new UrlHelperFactory());
+
+//Enable CORS
+builder.Services.AddCors(c =>
+{
+    c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+});
+
+
+//JSON Serializer
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
+options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+    .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
+    = new DefaultContractResolver());
+
+builder.Services.AddControllers();
+
 var app = builder.Build();
+
+//Enable CORS
+app.UseCors(options => options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -52,6 +75,21 @@ else
 
 // Xác nhận rằng chỉ có một đoạn mã đăng ký cho mỗi hành động hoặc controller
 app.MapGet("/error/test", () => { throw new Exception("test"); });
+
+app.MapControllers();
+
+app.MapControllerRoute(
+    name: "authors",
+    pattern: "api/authors/{action=Index}/{id?}",
+    defaults: new { controller = "Authors" }
+);
+
+app.MapControllerRoute(
+    name: "categories",
+    pattern: "api/categories/{action=Index}/{id?}",
+    defaults: new { controller = "Categories" }
+);
+
 app.MapControllers();
 
 app.UseHttpsRedirection();
