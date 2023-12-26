@@ -5,22 +5,32 @@ import Home from './Pages/Home';
 import Navbar from './Components/Navbar';
 import About from './Pages/About';
 import Product from './Pages/Product';
+import Login from './Pages/Login';
+import Register from './Pages/Register';
+import Admin from './Pages/Admin';
 
 function App() {
   return (
     <div className="App">
       <Router>
         <Routes>
-          <Route path='/*' element={
-            <>
-            <Navbar></Navbar>
-            <Routes>
-              <Route path='/' element={<Home></Home>}></Route>
-              <Route path='/product' element={<Product></Product>}></Route>
-              <Route path='/about' element={<About></About>}></Route>
-            </Routes>
-            </>
-          }></Route>
+          <Route
+            path="/*"
+            element={
+              <>
+                <Navbar></Navbar>
+                <Routes>
+                  <Route path="/" element={<Home></Home>}></Route>
+                  <Route path="/product" element={<Product></Product>}></Route>
+                  <Route path="/about" element={<About></About>}></Route>
+                  <Route path="/product" element={<Product></Product>}></Route>
+                  <Route path="/login" element={<Login></Login>}></Route>
+                  <Route path="/register" element={<Register></Register>}></Route>
+                </Routes>
+              </>
+            }
+          ></Route>
+          <Route path='/admin' element={<Admin></Admin>}></Route>
         </Routes>
       </Router>
     </div>
