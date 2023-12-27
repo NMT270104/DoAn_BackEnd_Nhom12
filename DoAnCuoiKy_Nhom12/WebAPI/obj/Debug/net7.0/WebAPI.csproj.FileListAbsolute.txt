@@ -156,3 +156,10 @@ D:\DoAn_BackEnd_Nhom12\DoAnCuoiKy_Nhom12\WebAPI\bin\Debug\net7.0\Microsoft.AspNe
 D:\DoAn_BackEnd_Nhom12\DoAnCuoiKy_Nhom12\WebAPI\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\DoAn_BackEnd_Nhom12\DoAnCuoiKy_Nhom12\WebAPI\bin\Debug\net7.0\Newtonsoft.Json.dll
 D:\DoAn_BackEnd_Nhom12\DoAnCuoiKy_Nhom12\WebAPI\bin\Debug\net7.0\Newtonsoft.Json.Bson.dll
+D:\DoAn_BackEnd_Nhom12\DoAnCuoiKy_Nhom12\WebAPI\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+D:\DoAn_BackEnd_Nhom12\DoAnCuoiKy_Nhom12\WebAPI\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+D:\DoAn_BackEnd_Nhom12\DoAnCuoiKy_Nhom12\WebAPI\bin\Debug\net7.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+D:\DoAn_BackEnd_Nhom12\DoAnCuoiKy_Nhom12\WebAPI\bin\Debug\net7.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+D:\DoAn_BackEnd_Nhom12\DoAnCuoiKy_Nhom12\WebAPI\bin\Debug\net7.0\Microsoft.Extensions.Identity.Core.dll
+D:\DoAn_BackEnd_Nhom12\DoAnCuoiKy_Nhom12\WebAPI\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
+D:\DoAn_BackEnd_Nhom12\DoAnCuoiKy_Nhom12\WebAPI\bin\Debug\net7.0\Microsoft.Extensions.Identity.Stores.dll

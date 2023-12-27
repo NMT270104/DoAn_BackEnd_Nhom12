@@ -5,7 +5,8 @@ using WebAPI.Models;
 using System.Linq.Dynamic.Core;
 using Microsoft.AspNetCore.Mvc.Routing;
 using System.Text.Json;
-using System.Text.Json.Serialization;   
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authorization;
 
     [ApiController]
     [Route("api/[controller]/[action]")]
@@ -71,51 +72,6 @@ using System.Text.Json.Serialization;
             return Ok(result);
         }
 
-        //Create (Thêm mới sách):
-        [HttpPost(Name = "CreateBook")]
-        public async Task<IActionResult> Create([FromBody] BookDTO bookDTO)
-        {
-            if (ModelState.IsValid)
-            {
-                // Check if AuthorID and CategoryID are valid integers
-                if (!int.TryParse(bookDTO.AuthorID.ToString(), out int authorId) || !int.TryParse(bookDTO.CategoryID.ToString(), out int categoryId))
-                {
-                    return BadRequest("Invalid AuthorID or CategoryID");
-                }
-
-                // Map dữ liệu từ BookDTO vào Book
-                var book = new Book
-                {
-                    NameBook = bookDTO.NameBook,
-                    AuthorID = authorId,
-                    CategoryID = categoryId,
-                    Image = bookDTO.Image,
-                    Description = bookDTO.Description,
-                    Price = bookDTO.Price,
-                    Quantity = bookDTO.Quantity
-                };
-
-                // Thêm mới Book
-                _context.Books.Add(book);
-
-                await _context.SaveChangesAsync();
-
-                // Lấy BookID sau khi đã thêm vào cơ sở dữ liệu
-                int bookId = book.BookID;
-
-                // Trả về thông tin chi tiết của sách đã thêm mới
-                var createdBook = await _context.Books
-                    .Include(b => b.Author)
-                    .Include(b => b.Category)
-                    .FirstOrDefaultAsync(b => b.BookID == bookId);
-
-                return CreatedAtAction("GetBooks", new { id = createdBook.BookID }, createdBook);
-            }
-
-            return BadRequest(ModelState);
-        }
-
-
         //Read (Lấy thông tin sách):
         [HttpGet("{id}", Name = "GetBookById")]
         public async Task<IActionResult> GetBookById(int id)
@@ -131,70 +87,6 @@ using System.Text.Json.Serialization;
             }
 
             return Ok(book);
-        }
-
-
-        // Update (Sửa sách)
-        [HttpPut("{id}", Name = "UpdateBook")]
-        public async Task<IActionResult> Update(int id, [FromBody] BookDTO bookDTO)
-        {
-            if (ModelState.IsValid)
-            {
-                // Check if AuthorID and CategoryID are valid integers
-                if (!int.TryParse(bookDTO.AuthorID.ToString(), out int authorId) || !int.TryParse(bookDTO.CategoryID.ToString(), out int categoryId))
-                {
-                    return BadRequest("Invalid AuthorID or CategoryID");
-                }
-
-                // Lấy sách cần sửa từ cơ sở dữ liệu
-                var existingBook = await _context.Books.FindAsync(id);
-
-                if (existingBook == null)
-                {
-                    return NotFound(); // Trả về 404 nếu không tìm thấy sách
-                }
-
-                // Cập nhật thông tin sách
-                existingBook.NameBook = bookDTO.NameBook;
-                existingBook.AuthorID = authorId;
-                existingBook.CategoryID = categoryId;
-                existingBook.Image = bookDTO.Image;
-                existingBook.Description = bookDTO.Description;
-                existingBook.Price = bookDTO.Price;
-                existingBook.Quantity = bookDTO.Quantity;
-
-                // Lưu thay đổi vào cơ sở dữ liệu
-                await _context.SaveChangesAsync();
-
-                // Trả về thông tin sách sau khi sửa
-                var updatedBook = await _context.Books
-                    .Include(b => b.Author)
-                    .Include(b => b.Category)
-                    .FirstOrDefaultAsync(b => b.BookID == id);
-
-                return Ok(updatedBook);
-            }
-
-            return BadRequest(ModelState);
-        }
-
-        
-
-        //Delete (Xóa sách):
-        [HttpDelete("{id}", Name = "DeleteBook")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var book = await _context.Books.FindAsync(id);
-
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            _context.Books.Remove(book);
-            await _context.SaveChangesAsync();
-                string deleted = "Đã xoá sách này!";
-            return Ok(deleted);
         }
 
 

@@ -8,13 +8,10 @@ namespace WebAPI.Models {
         [Key]
         [Required]
         public int OrderID { get; set; }
-        //[Key]
-        [Required]
-        public int UserID { get; set; }
-        [ForeignKey("UserID")]
 
-        //[Key]
-        [Required]
+        // public int UserID { get; set; }
+        // [ForeignKey("UserID")]
+
         public int BookID { get; set; }
         [ForeignKey("BookID")]
 
@@ -24,9 +21,13 @@ namespace WebAPI.Models {
 
 
         // Quan hệ n-1 với User
-        public User? User { get; set; }
+        public User User { get; set; }
 
         // Quan hệ n-1 với Book
-        public Book? Book { get; set; }
+        public Book Book { get; set; }
+        public string OrderItems { get;  set; }
+        public string CustomerName { get; internal set; }
+        public string CustomerEmail { get; internal set; }
+        public string ShippingAddress { get; internal set; }
     }
 }

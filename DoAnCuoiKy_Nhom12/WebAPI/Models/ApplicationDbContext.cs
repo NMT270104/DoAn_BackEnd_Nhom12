@@ -1,7 +1,8 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebAPI.Models {
-    public class ApplicationDbContext :DbContext{
+    public class ApplicationDbContext :IdentityDbContext<User>{
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) :
         base(options){}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -16,12 +17,13 @@ namespace WebAPI.Models {
             //     .HasKey(b => new { b.BookID, b.AuthorID, b.CategoryID });
 
             // Xác định quan hệ giữa các bảng và khóa chính
-            modelBuilder.Entity<Order>()
-                .HasOne(o => o.User)
-                .WithMany(u => u.Orders)
-                .HasForeignKey(o => o.UserID)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+            
+            // modelBuilder.Entity<Order>()
+            //     .HasOne(o => o.UserID)
+            //     .WithMany(u => u.Orders)
+            //     .HasForeignKey(o => o.UserID)
+            //     .IsRequired()
+            //     .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Order>()
                 .HasOne(o => o.Book)
@@ -30,19 +32,25 @@ namespace WebAPI.Models {
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
+            //  modelBuilder.Entity<Order>()
+            // .HasMany(o => o.OrderItems)
+            // .WithOne()
+            // .HasForeignKey(oi => oi.OrderId)
+            // .Ignore(o => o.OrderItems);
+
             modelBuilder.Entity<Book>()
                 .HasOne(b => b.Author)
                 .WithMany(a => a.Books)
                 .HasForeignKey(b => b.AuthorID)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Book>()
                 .HasOne(b => b.Category)
                 .WithMany(c => c.Books)
                 .HasForeignKey(b => b.CategoryID)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
             // Khai báo DbSet cho mỗi bảng

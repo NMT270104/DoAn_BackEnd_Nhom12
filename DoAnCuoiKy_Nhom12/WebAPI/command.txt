@@ -35,6 +35,13 @@ dotnet add package System.Linq.Dynamic.Core --version 1.2.23
 
 dotnet add package Microsoft.AspNetCore.Mvc.NewtonsoftJson
 
+* Install Lib Authentication and authorization
+
+dotnet add package Microsoft.Extensions.Identity.Core --version 7.0.13
+dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 7.0.13
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 7.0.13
+
+
 secret.json
 { 
 	"ConnectionStrings": { 
