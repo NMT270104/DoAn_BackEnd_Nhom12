@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+*{
+    font-family: 'Roboto', sans-serif;
+}
+
+/* 
+.c-item{
+    height: 600px;
+}
+
+.c-img{
+    height: 100%;
+    object-fit: cover;
+} */
+
+/* home.css */
+.bg-color{
+    background-color: #FFF7D2;
+}
+
+@media only screen and (max-width: 767px) {
+    .logo{
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 992px) {
+    .logo{
+        display: none;
+    }
+}
+
+.icon-logo{
+    margin-top: 12px;
+}
+
+/* Products */
+.sec{
+    padding: 10px 5%;
+}
+
+.products .card{
+    width: 310px;
+    background: #f5f5f5;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 20px;
+}
+
+.products .card img{
+    height: 380px;
+    width: 100%;
+}
+
+.products .card .desc{
+    padding: 5px 20px;
+    opacity: 0.8; 
+}
+
+.products .card .title{
+    font-size: 20px;
+    color: #333333;
+    padding: 0 20px;
+}
+
+.products .card .box{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.btn-buy{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.header-info{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+    
