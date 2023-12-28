@@ -14,7 +14,7 @@ namespace WebAPI.Controllers
 
             if (statusCode == 404)
             {
-                return NotFound("Resource not found.");
+                return NotFound(/*"Resource not found."*/);
             }
 
             return Problem(); // generic error

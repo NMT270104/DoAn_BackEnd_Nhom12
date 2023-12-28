@@ -31,9 +31,13 @@ dotnet add package CsvHelper --version 30.0.1
 
 dotnet add package System.Linq.Dynamic.Core --version 1.2.23
 
-* Install NewtonsoftJson
+* Install NewtonsoftJson + Session
 
 dotnet add package Microsoft.AspNetCore.Mvc.NewtonsoftJson
+dotnet add package Newtonsoft.Json
+dotnet add package Microsoft.AspNetCore.Session
+dotnet add package Microsoft.Extensions.Caching.Memory
+
 
 * Install Lib Authentication and authorization
 
