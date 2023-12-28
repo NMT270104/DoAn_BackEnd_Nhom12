@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 
 const Register = () => {
@@ -31,7 +32,7 @@ const Register = () => {
 
   return (
     <>
-    <ToastContainer></ToastContainer>
+      <ToastContainer></ToastContainer>
       <div className="container mt-5">
         <div className="row d-flex justify-content-center align-items-center">
           <div className="col-lg-4 bg-white m-auto">
@@ -92,13 +93,15 @@ const Register = () => {
                 </button>
                 <p className="text-center mt-3">
                   When you register by clicking sign up button, you Agree to our
-                  <a href="/#"> Terms and Conditions </a>
+                  <a href="/"> Terms and Conditions </a>
                   and
-                  <a href="/#"> Privacy Policy</a>
+                  <a href="/"> Privacy Policy</a>
                 </p>
                 <p className="text-center">
                   Already have an account?
-                  <a href="/#"> Login here</a>
+                  <a href="/">
+                    <Link to={"/login"}>Register</Link>
+                  </a>
                 </p>
               </div>
             </form>
