@@ -6,10 +6,8 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify"; 
-import 'react-toastify/dist/ReactToastify.css'
-
-const defaultImageSrc="/images/Doraemon1.jpg"
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const CRUD = () => {
   const [show, setShow] = useState(false);
@@ -37,102 +35,139 @@ const CRUD = () => {
     Price: "",
     Quantity: "",
     Description: "",
-    ImageFile:null,
-    ImageSrc:"",
-    Image: "",
+    Image: null,
   });
 
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    fetchData();
-    getCategories();
-  }, []);
-
-  const fetchData = async () => {
+  const fetchAuthors = async () => {
     try {
-      const [authorsResponse, dataResponse] = await axios.all([
-        axios.get("http://localhost:40080/api/Authors/GetAuthors"),
-        axios.get(
-          "http://localhost:40080/api/Books/Get?pageIndex=0&pageSize=10&sortColumn=NameBook&sortOrder=ASC"
-        ),
-      ]);
+      // Gửi yêu cầu để đăng nhập và nhận token
+      const loginResponse = await axios.post(
+        "http://localhost:40080/Account/Login",
+        {
+          UserName: "Admin",
+          PassWord: "Admin@123",
+        }
+      );
+
+      // Lấy token từ phản hồi đăng nhập
+      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiQWRtaW4iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJBZG1pbmlzdHJhdG9yIiwiZXhwIjoxNzAzNzY0MDIwLCJpc3MiOiJXZWJBUEkiLCJhdWQiOiJXZWJBUEkifQ.54-VEt9r3PVakR3lJnKXmKLGEewoT3HNBn8FmgyOiqw";
+
+      // Sử dụng token để gửi yêu cầu lấy dữ liệu từ API có quyền admin
+      const authorsResponse = await axios.get(
+        "http://localhost:40080/api/Admin/GetAuthors",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      // Xử lý dữ liệu tại đây (ví dụ: cập nhật state authors)
       setAuthors(authorsResponse.data);
-      setData(dataResponse.data.Data);
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error fetching authors:", error);
     }
   };
 
-  const getCategories = () => {
-    axios
-      .get("http://localhost:40080/api/Categories/GetCategories")
-      .then((result) => {
-        setCategories(result.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching categories:", error);
-      });
-  };
+
+  useEffect(() => {
+    // Gọi hàm để lấy dữ liệu tác giả khi component được tạo
+    fetchAuthors();
+  }, []);
+
 
   const handleEdit = (book) => {
-    // Set các state cho Modal
     setNameBook(book.NameBook);
-    setAuthorName(book.AuthorName);
-    setCategoryName(book.CategoryName);
+    setAuthorName(getAuthorName(book.AuthorID));
+    setCategoryName(getCategoryName(book.CategoryID));
     setPrice(book.Price);
     setQuantity(book.Quantity);
     setDescription(book.Description);
     setImage(null);
 
-    // Set EditBook state
     setEditBook({
       BookID: book.BookID,
       AuthorID: book.AuthorID,
       CategoryID: book.CategoryID,
       NameBook: book.NameBook,
-      AuthorName: book.AuthorName,
-      CategoryName: book.CategoryName,
+      AuthorName: getAuthorName(book.AuthorID),
+      CategoryName: getCategoryName(book.CategoryID),
       Price: book.Price,
       Quantity: book.Quantity,
       Description: book.Description,
       Image: null,
     });
+
     handleShow();
   };
 
-  const handleDelete = (bookID) => {
+  const handleDelete = async (bookID) => {
     if (window.confirm("Bạn có muốn xóa cuốn sách này không?")) {
-      alert(bookID);
+      try {
+        // Gửi yêu cầu DELETE để xóa sách
+        await axios.delete(`http://localhost:40080/api/Admin/DeleteBook/${bookID}`);
+        toast.success("Sách đã được xóa");
+
+      } catch (error) {
+        console.error("Error deleting book:", error);
+        toast.error("Đã xảy ra lỗi khi xóa sách");
+      }
     }
   };
 
-  const handleUpdate = () => {
-    handleClose();
-    fetchData();
+  const handleUpdate = async () => {
+    try {
+      // Gửi yêu cầu PUT để cập nhật thông tin sách
+      const formData = new FormData();
+      formData.append("BookID", editBook.BookID);
+      formData.append("NameBook", editBook.NameBook);
+      formData.append("AuthorID", editBook.AuthorID);
+      formData.append("CategoryID", editBook.CategoryID);
+      formData.append("Price", editBook.Price);
+      formData.append("Quantity", editBook.Quantity);
+      formData.append("Description", editBook.Description);
+      formData.append("Image", editBook.Image);
+
+      await axios.put("http://localhost:40080/api/Admin/UpdateBook", formData);
+      toast.success("Thông tin sách đã được cập nhật");
+      handleClose();
+    } catch (error) {
+      console.error("Error updating book:", error);
+      toast.error("Đã xảy ra lỗi khi cập nhật sách");
+    }
   };
 
-  // Function để thêm mới sản phẩm
   const handleSave = async () => {
-    const booksUrl =
-      "http://localhost:40080/api/Books/Get?pageIndex=0&pageSize=10&sortColumn=NameBook&sortOrder=ASC";
-    const authorsUrl = "http://localhost:40080/api/Authors/CreateAuthor";
-    const categoriesUrl =
-      "http://localhost:40080/api/Categories/CreateCategory";
-
     try {
-      // Dữ liệu tác giả mới từ state
-      const newAuthorData = { AuthorName };
-      const authorResponse = await axios.post(authorsUrl, newAuthorData);
-      const AuthorID = authorResponse.data.AuthorID;
+      const author = authors.find((a) => a.AuthorName === AuthorName);
+      const category = categories.find((c) => c.CategoryName === CategoryName);
 
-      // Dữ liệu thể loại mới từ state
-      const newCategoryData = { CategoryName };
-      const categoryResponse = await axios.post(categoriesUrl, newCategoryData);
-      const CategoryID = categoryResponse.data.CategoryID;
+      // Kiểm tra xem tác giả đã tồn tại hay chưa, nếu chưa thì tạo mới
+      if (!author) {
+        const newAuthorResponse = await axios.post(
+          "http://localhost:40080/api/Admin/CreateAuthor",
+          { AuthorName }
+        );
+        setAuthors([...authors, newAuthorResponse.data]);
+      }
 
-      // Dữ liệu sách mới từ state
-      const newBookData = {
+      // Kiểm tra xem thể loại đã tồn tại hay chưa, nếu chưa thì tạo mới
+      if (!category) {
+        const newCategoryResponse = await axios.post(
+          "http://localhost:40080/api/Admin/CreateCategory",
+          { CategoryName }
+        );
+        setCategories([...categories, newCategoryResponse.data]);
+      }
+
+      // Lấy ID của tác giả và thể loại
+      const AuthorID = author ? author.AuthorID : authors[authors.length - 1].AuthorID + 1;
+      const CategoryID = category ? category.CategoryID : categories[categories.length - 1].CategoryID + 1;
+
+      // Tạo mới sách
+      await axios.post("http://localhost:40080/api/Admin/CreateBook", {
         NameBook,
         AuthorID,
         CategoryID,
@@ -140,12 +175,9 @@ const CRUD = () => {
         Quantity,
         Description,
         Image, // Chắc chắn rằng Image là một đối tượng File nếu bạn đang sử dụng multipart/form-data
-      };
+      });
 
-      // Gửi yêu cầu POST để thêm sách mới
-      await axios.post(booksUrl, newBookData);
-
-      fetchData(); // Load lại danh sách sau khi thêm mới
+      
       clear(); // Xóa trạng thái của form
       toast.success("Sách đã được thêm mới");
     } catch (error) {
@@ -172,27 +204,6 @@ const CRUD = () => {
   const getCategoryName = (categoryID) => {
     const category = categories.find((c) => c.CategoryID === categoryID);
     return category ? category.CategoryName : "Unknown Category";
-  };
-
-  const showPreview = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      let imageFile = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (x) => {
-        setImage({
-          ...Image,
-          imageFile: imageFile,
-          ImageSrc: x.target.result,
-        });
-      };
-      reader.readAsDataURL(imageFile);
-    } else {
-      setImage({
-        ...Image,
-        imageFile: null,
-        ImageSrc: defaultImageSrc,
-      });
-    }
   };
 
   return (
@@ -287,7 +298,7 @@ const CRUD = () => {
                 type="file"
                 id="formFile"
                 accept="image/*"
-                onChange={showPreview}
+                onChange={""}
               />
             </div>
             <div className="d-flex justify-content-center align-items-center">
@@ -326,7 +337,7 @@ const CRUD = () => {
                 return (
                   <tr key={index}>
                     <td>{index + 1}</td>
-                    <td>{item.BookID}</td>
+                    <td>{item.bookID}</td>
                     <td>{item.AuthorID}</td>
                     <td>{item.CategoryID}</td>
                     <td>{item.NameBook}</td>
@@ -336,11 +347,13 @@ const CRUD = () => {
                     <td>{item.Quantity}</td>
                     <td>{item.Description}</td>
                     <td>
-                      <img
-                        src={item.ImageSrc} // hoặc sử dụng đường dẫn hình ảnh
-                        alt="Hình ảnh sách"
-                        style={{ width: "50px", height: "50px" }}
-                      />
+                      {item.Image && (
+                        <img
+                          src={item.Image} // Đảm bảo rằng item.Image là một đường dẫn đến hình ảnh
+                          alt="Hình ảnh sách"
+                          style={{ width: "50px", height: "50px" }}
+                        />
+                      )}
                     </td>
                     <td colSpan={2}>
                       <button
