@@ -27,6 +27,14 @@ dotnet ef database drop --force --context ApplicationDbContext
 
 dotnet add package CsvHelper --version 30.0.1
 
+*Install Dynamic LINQ
+
+dotnet add package System.Linq.Dynamic.Core --version 1.2.23
+
+* Install NewtonsoftJson
+
+dotnet add package Microsoft.AspNetCore.Mvc.NewtonsoftJson
+
 secret.json
 { 
 	"ConnectionStrings": { 
