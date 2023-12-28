@@ -1,8 +1,12 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "S+VO4kfHkwhnFLi+qTMgHvh7FDNAwagJ3rBFuKtyJW5L2j3m6mv7r8BfggEHNIcfS6UkHySF2YYkNALD5dXl/w==",
+=======
+  "dgSpecHash": "EA9FGNlZxG7zYqd6wr85WEOT4Sm2/w/oaM67cubmFn1NFCArN3Op/QwfHlhCQfZq0nfz/hfnNTK9D9WJojeg/Q==",
+>>>>>>> 4e48d41707ccd8171f13d2bac4700b38e225036a
   "success": true,
-  "projectFilePath": "D:\\DoAn_BackEnd_Nhom12\\DoAnCuoiKy_Nhom12\\WebAPI\\WebAPI.csproj",
+  "projectFilePath": "C:\\Đồ án Backend\\DoAn_BackEnd_Nhom12\\DoAnCuoiKy_Nhom12\\WebAPI\\WebAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

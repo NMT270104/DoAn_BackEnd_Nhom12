@@ -57,12 +57,12 @@ namespace WebAPI.Controllers{
                         _logger.LogInformation(
                             "User {userName} ({email}) has been created,",
                             newUser.UserName,newUser.Email);
-                        if (!await _roleManager.RoleExistsAsync(RoleNames.Customer))
+                        if (!await _roleManager.RoleExistsAsync(RoleNames.Administrator))
                         {
                             await _roleManager.CreateAsync( 
-                                new IdentityRole(RoleNames.Customer));
+                                new IdentityRole(RoleNames.Administrator));
                         }
-                        await _userManager.AddToRoleAsync(newUser,RoleNames.Customer);
+                        await _userManager.AddToRoleAsync(newUser,RoleNames.Administrator);
                         return StatusCode(210,
                         $"Tài khoản: {newUser.UserName}\n đã được tạo thành công.");
                     }
