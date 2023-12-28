@@ -67,7 +67,7 @@ const Register = () => {
                   <i className="fa-solid fa-lock" />
                 </span>
                 <input
-                  type="text"
+                  type="password"
                   className="form-control"
                   placeholder="Enter Password"
                   value={password}
