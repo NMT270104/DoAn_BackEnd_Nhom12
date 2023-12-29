@@ -121,6 +121,12 @@ builder.Services.AddAuthentication(options =>
 // Thêm dịch vụ IUrlHelperFactory
 builder.Services.AddSingleton<IUrlHelperFactory>(new UrlHelperFactory());
 
+//JSON Serializer
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
+options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+    .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
+    = new DefaultContractResolver());
+
 //Enable CORS
 builder.Services.AddCors(c =>
 {
@@ -128,17 +134,19 @@ builder.Services.AddCors(c =>
 });
 
 
-//JSON Serializer
-builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
-options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
-    .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
-    = new DefaultContractResolver());
 
 builder.Services.AddControllers();
 
 builder.Services.AddSingleton<List<ShoppingCartItem>>();
 
-
+builder.Services.AddDistributedMemoryCache();           // Đăng ký dịch vụ lưu cache trong bộ nhớ (Session sẽ sử dụng nó)
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Đặt thời gian timeout của Session
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
@@ -156,28 +164,28 @@ if (app.Environment.IsDevelopment())
 if (app.Configuration.GetValue<bool>("UseDeveloperExceptionPage"))
     app.UseDeveloperExceptionPage();
 else
-    app.UseExceptionHandler(errorApp =>
-{
-    errorApp.Run(async context =>
-    {
-        context.Response.StatusCode = 500; // or another error status code
-        context.Response.ContentType = "application/json";
+    app.UseExceptionHandler("/error");
+// {
+//     errorApp.Run(async context =>
+//     {
+//         context.Response.StatusCode = 500; // or another error status code
+//         context.Response.ContentType = "application/json";
 
-        var exception = context.Features.Get<IExceptionHandlerFeature>();
-        if (exception != null)
-        {
-            // Log your exception here
-            // var logger = context.RequestServices.GetRequiredService<ILogger<Startup>>();
-            // logger.LogError($"Unexpected error: {exception.Error}");
-        }
+//         var exception = context.Features.Get<IExceptionHandlerFeature>();
+//         if (exception != null)
+//         {
+//             // Log your exception here
+//             // var logger = context.RequestServices.GetRequiredService<ILogger<Startup>>();
+//             // logger.LogError($"Unexpected error: {exception.Error}");
+//         }
 
-        await context.Response.WriteAsync("An unexpected fault happened. Try again later.").ConfigureAwait(false);
-    });
-});
+//         await context.Response.WriteAsync("An unexpected fault happened. Try again later.").ConfigureAwait(false);
+//     });
+// });
 
 app.UseStatusCodePagesWithReExecute("/error/{0}");
 
-
+app.UseSession();
 // Add authentication and authorization middleware
 app.UseAuthentication();
 app.UseAuthorization();
@@ -207,7 +215,11 @@ app.MapControllerRoute(
     defaults: new { controller = "Categories" }
 );
 
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHttpsRedirection();
+}
+
 
 app.Run();
 
