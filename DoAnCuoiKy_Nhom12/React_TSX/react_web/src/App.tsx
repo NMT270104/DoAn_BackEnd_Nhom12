@@ -10,6 +10,9 @@ import Register from './Pages/Register';
 import Admin from './Pages/Admin';
 import MyComponent from './Pages/MyComponent';
 import CRUD from './CRUD';
+import CreateAuthorName from './Pages/CreateAuthorName';
+import CreateCategory from './Pages/CreateCategory';
+import CreateBook from './Pages/CreateBook';
 
 function App() {
   return (
@@ -36,8 +39,14 @@ function App() {
             }
           ></Route>
           <Route path="/admin" element={<Admin></Admin>}></Route>
-          <Route path="/mycomponent" element={<MyComponent></MyComponent>}></Route>
-          <Route path='/crud' element={<CRUD></CRUD>}></Route>
+          <Route
+            path="/mycomponent"
+            element={<MyComponent></MyComponent>}
+          ></Route>
+          <Route path="/crud" element={<CRUD></CRUD>}></Route>
+          <Route path="/createauthorname" element={<CreateAuthorName></CreateAuthorName>}></Route>
+          <Route path="/createcategory" element={<CreateCategory></CreateCategory>}></Route>
+          <Route path="/createbook" element={<CreateBook></CreateBook>}></Route>
         </Routes>
       </Router>
     </div>
